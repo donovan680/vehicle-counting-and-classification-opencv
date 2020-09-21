@@ -23,13 +23,13 @@ for i in range(19):
 
 # mengambil width dan heigth video dari properties (value w posisi ke 3, h posisi ke 4)
 w = cap.get(3)
-print 'Width', w
+print ('Width'), w
 h = cap.get(4)
-print 'Height', h
+print ('Height'), h
 # luas frame area h*w
 frameArea = h*w
 areaTH = frameArea/800
-print 'Area Threshold', areaTH
+print ('Area Threshold'), areaTH
 
 # Input/Output Lines
 # yang itung kendaraan turun (biru)
@@ -40,8 +40,8 @@ line_down = int(3*(h/5))
 up_limit = int(1*(h/5))
 down_limit = int(4*(h/5))
 
-print "Red line y:", str(line_down)
-print "Blue line y:", str(line_up)
+print ("Red line y:"), str(line_down)
+print ("Blue line y:"), str(line_up)
 line_down_color = (255,0,0)
 line_up_color = (0,0,255)
 # set height garis
@@ -111,15 +111,15 @@ while(cap.isOpened()):
     except:
         #If there is no more frames to show...
         print('EOF')
-        print 'UP:', cnt_up
-        print 'DOWN:', cnt_down
+        print('UP:'), cnt_up
+        print('DOWN:'), cnt_down
         break
 
     ##################
     ## FIND CONTOUR ##
     ##################
 
-    _, contours0, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours0, hierarchy = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     for cnt in contours0:
         # membuat kontur/garis mengikuti objek bergerak
         cv2.drawContours(frame, cnt, -1, (0,255,0), 3, 8)
@@ -154,9 +154,9 @@ while(cap.isOpened()):
                         height = h
                         width = w
                         kll = 2 * (height + width)
-                        print 'Height:::', height
-                        print 'Width:::', width
-                        print 'Keliling:::', kll
+                        print ('Height:::'), height
+                        print ('Width:::'), width
+                        print ('Keliling:::'), kll
                         # atur parameter luas rectangle berdasarkan video
                         if kll < 300:
                             UpMTR += 1
@@ -169,7 +169,7 @@ while(cap.isOpened()):
                         # cv2.imshow('Rectangle', rectangle)
                         # print "Area equal to ::::", area
                         cnt_up += 1
-                        print "ID:", i.getId(), 'crossed going up at', time.strftime("%c")
+                        print ("ID:"), i.getId(), ('crossed going up at'), time.strftime("%c")
                         pause()
                     # jika objek melewati garis merah duluan berarti going down, dicek di Vehicle.py
                     elif i.going_DOWN(line_down, line_up) == True:
@@ -191,7 +191,7 @@ while(cap.isOpened()):
                         # cv2.imshow('Rectangle', rectangle)
                         # print "Area equal to ::::", area
                         cnt_down += 1
-                        print "ID:", i.getId(), 'crossed going down at', time.strftime("%c")
+                        print ("ID:"), i.getId(), ('crossed going down at'), time.strftime("%c")
                     break
                 if i.getState() == '1':
                     if i.getDir() == 'down' and i.getY() > down_limit:
@@ -262,8 +262,8 @@ while(cap.isOpened()):
     cv2.putText(frame, HV_down, (10, 240), font, 2, (255, 0, 0), 3, cv2.LINE_AA)
 
     cv2.imshow('Frame', cv2.resize(frame, (400, 300)))
-    # cv2.imshow('Frame', cv2.resize(frame, (1280, 720)))
-    #cv2.imshow('Backgroud Subtraction', fgmask)
+    cv2.imshow('Frame', cv2.resize(frame, (1280, 720)))
+    cv2.imshow('Backgroud Subtraction', fgmask)
 
     #Abort and exit with 'Q' or ESC
     k = cv2.waitKey(10) & 0xff
